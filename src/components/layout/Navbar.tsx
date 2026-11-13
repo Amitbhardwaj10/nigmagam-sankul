@@ -2,24 +2,24 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Calendar, Phone } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Vedic Knowledge", href: "#vedic-knowledge" },
-  { name: "Services", href: "#services" },
-  { name: "Why Choose", href: "#why-choose" },
-  { name: "Awards", href: "#awards" },
-  { name: "Gallery", href: "#gallery" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Services", href: "/services" },
+  { name: "Vedic Knowledge", href: "/vedic-knowledge" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,23 +29,17 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith("#")) {
-      e.preventDefault();
-      setMobileMenuOpen(false);
-      const target = document.querySelector(href);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
           ? "bg-[#F9F8F4]/95 backdrop-blur-md shadow-xs border-b border-[#E5E2DA] py-3.5"
-          : "bg-[#F9F8F4]/85 backdrop-blur-xs border-b border-[#E5E2DA]/60 py-4.5"
+          : "bg-[#F9F8F4]/90 backdrop-blur-xs border-b border-[#E5E2DA]/60 py-4.5"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,7 +48,6 @@ export const Navbar: React.FC = () => {
           <Link
             href="/"
             className="flex flex-col group text-left shrink-0"
-            onClick={(e) => handleNavClick(e, "#home")}
           >
             <span className="font-devanagari text-xl sm:text-2xl font-bold tracking-wide text-[#1E221E] group-hover:text-[#2D4739] transition-colors leading-tight">
               {siteConfig.websiteNameHindi}
@@ -68,18 +61,32 @@ export const Navbar: React.FC = () => {
           </Link>
 
           {/* CENTER: Navigation Links */}
-          <nav className="hidden lg:flex items-center justify-center gap-5 xl:gap-7 flex-1 px-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="text-[13px] font-medium text-[#5E645E] hover:text-[#1E221E] tracking-wide transition-colors relative py-1 group whitespace-nowrap"
-              >
-                {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#2D4739] transition-all duration-300 group-hover:w-full rounded-full" />
-              </a>
-            ))}
+          <nav className="hidden lg:flex items-center justify-center gap-6 xl:gap-8 flex-1 px-4">
+            {navLinks.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname === link.href || pathname.startsWith(`${link.href}/`);
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-[13px] tracking-wide transition-colors relative py-1 whitespace-nowrap ${
+                    isActive
+                      ? "text-[#2D4739] font-semibold"
+                      : "text-[#5E645E] font-medium hover:text-[#1E221E]"
+                  }`}
+                >
+                  {link.name}
+                  {isActive ? (
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#2D4739] rounded-full" />
+                  ) : (
+                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#2D4739] transition-all duration-300 group-hover:w-full rounded-full" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* RIGHT: Actions */}
@@ -95,25 +102,23 @@ export const Navbar: React.FC = () => {
               <Phone className="w-4 h-4" />
             </a>
 
-            <a
-              href="#booking"
-              onClick={(e) => handleNavClick(e, "#booking")}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#2D4739] hover:bg-[#22362B] text-white text-xs font-semibold tracking-wider uppercase shadow-xs hover:shadow-md transition-all duration-200 transform active:scale-98 cursor-pointer"
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#2D4739] hover:bg-[#22362B] text-white text-xs font-semibold tracking-wider uppercase shadow-2xs hover:shadow-md transition-all duration-200 transform active:scale-98 cursor-pointer"
             >
               <Calendar className="w-3.5 h-3.5 text-white/80" />
               <span>Book a Puja</span>
-            </a>
+            </Link>
           </div>
 
           {/* MOBILE TOGGLE */}
           <div className="flex items-center gap-2 lg:hidden">
-            <a
-              href="#booking"
-              onClick={(e) => handleNavClick(e, "#booking")}
+            <Link
+              href="/contact"
               className="sm:hidden inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#2D4739] text-white text-xs font-medium"
             >
               Book
-            </a>
+            </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg text-[#1E221E] hover:bg-[#F1EFEA] transition-colors focus:outline-none cursor-pointer"
@@ -132,28 +137,39 @@ export const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
             className="lg:hidden bg-[#F9F8F4] border-b border-[#E5E2DA] px-6 pt-4 pb-6 overflow-hidden shadow-lg"
           >
             <div className="flex flex-col space-y-3">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-sm font-medium text-[#5E645E] hover:text-[#1E221E] py-2 border-b border-[#E5E2DA]/60"
-                >
-                  {link.name}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const isActive =
+                  link.href === "/"
+                    ? pathname === "/"
+                    : pathname === link.href || pathname.startsWith(`${link.href}/`);
+
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`text-sm py-2 border-b border-[#E5E2DA]/60 transition-colors ${
+                      isActive
+                        ? "text-[#2D4739] font-bold"
+                        : "text-[#5E645E] font-medium hover:text-[#1E221E]"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
               <div className="pt-2 flex flex-col gap-2.5">
-                <a
-                  href="#booking"
-                  onClick={(e) => handleNavClick(e, "#booking")}
-                  className="w-full text-center py-2.5 rounded-full bg-[#2D4739] text-white text-xs uppercase tracking-wider font-semibold shadow-xs"
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full text-center py-2.5 rounded-full bg-[#2D4739] text-white text-xs uppercase tracking-wider font-semibold shadow-2xs"
                 >
                   Book a Puja Ceremony
-                </a>
+                </Link>
                 <a
                   href={`https://wa.me/${siteConfig.contact.whatsappNumber}`}
                   target="_blank"

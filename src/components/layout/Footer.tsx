@@ -59,44 +59,34 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2.5 text-xs text-white/70">
               <li>
-                <a href="#home" className="hover:text-white transition-colors">
+                <Link href="/" className="hover:text-white transition-colors">
                   Home (मुख्य पृष्ठ)
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#about" className="hover:text-white transition-colors">
-                  About Acharya Ji (परिचय)
-                </a>
+                <Link href="/about" className="hover:text-white transition-colors">
+                  About Acharya Ji (परिचय एवं परंपरा)
+                </Link>
               </li>
               <li>
-                <a href="#vedic-knowledge" className="hover:text-white transition-colors">
+                <Link href="/services" className="hover:text-white transition-colors">
+                  Spiritual Services (वैदिक अनुष्ठान)
+                </Link>
+              </li>
+              <li>
+                <Link href="/vedic-knowledge" className="hover:text-white transition-colors">
                   The Three Vedas (त्रि-वेद ज्ञान)
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="hover:text-white transition-colors">
-                  Spiritual Services (वैदिक सेवाएं)
-                </a>
-              </li>
-              <li>
-                <a href="#why-choose" className="hover:text-white transition-colors">
-                  Why Choose Acharya Ji (विशेषताएं)
-                </a>
-              </li>
-              <li>
-                <a href="#awards" className="hover:text-white transition-colors">
-                  Awards & Honours (सम्मान एवं प्रशस्ति)
-                </a>
-              </li>
-              <li>
-                <a href="#gallery" className="hover:text-white transition-colors">
+                <Link href="/gallery" className="hover:text-white transition-colors">
                   Spiritual Gallery (चित्र वीथिका)
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#booking" className="hover:text-white transition-colors">
-                  Book a Puja (पूजा बुकिंग)
-                </a>
+                <Link href="/contact" className="hover:text-white transition-colors">
+                  Book a Puja (पूजा बुकिंग एवं संपर्क)
+                </Link>
               </li>
             </ul>
           </div>

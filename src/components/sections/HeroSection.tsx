@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, MessageCircle, Sparkles, ShieldCheck } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
@@ -92,13 +93,13 @@ export const HeroSection: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-3"
             >
-              <a
-                href="#booking"
+              <Link
+                href="/contact"
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#2D4739] hover:bg-[#22362B] text-white text-xs uppercase tracking-widest font-semibold shadow-md hover:shadow-lg transition-all duration-300 transform active:scale-98 cursor-pointer"
               >
                 <Calendar className="w-4 h-4 text-white/80" />
                 <span>Book a Puja</span>
-              </a>
+              </Link>
 
               <a
                 href={whatsappHeroUrl}

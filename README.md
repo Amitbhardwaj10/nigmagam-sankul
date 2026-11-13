@@ -92,9 +92,18 @@ nigmagam-sankul/
 │   ├── app/
 │   │   ├── globals.css           # Global theme variables & Tailwind v4
 │   │   ├── layout.tsx            # Root layout with fonts & metadata
-│   │   ├── page.tsx              # Home page with JSON-LD Schema.org
-│   │   └── services/[slug]/
-│   │       └── page.tsx          # Dedicated SSG pages for all 8 ceremonies
+│   │   ├── page.tsx              # Home portal with previews & quick actions
+│   │   ├── about/
+│   │   │   └── page.tsx          # Dedicated About page (Bio, Lineage, Why Choose, Awards)
+│   │   ├── services/
+│   │   │   ├── page.tsx          # All 8 Ceremonies directory & guidance
+│   │   │   └── [slug]/page.tsx   # Dedicated SSG guides for each ceremony
+│   │   ├── vedic-knowledge/
+│   │   │   └── page.tsx          # The 3 Vedas, Swara science & Shakhas
+│   │   ├── gallery/
+│   │   │   └── page.tsx          # Complete categorized visual gallery & Lightbox
+│   │   └── contact/
+│   │       └── page.tsx          # Ceremony booking form & direct contact channels
 │   ├── components/
 │   │   ├── home/
 │   │   │   └── HomeClient.tsx    # Client-side home controller
